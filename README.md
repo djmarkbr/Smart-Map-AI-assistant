@@ -1,96 +1,113 @@
 # 🌆 Vibe Search
+
 Intelligent, Vibe-Aware Place Discovery Using Client-Side AI
 
-Vibe Search is a production-style web application that explores how client-side machine learning and generative AI can be combined to enhance location-based discovery beyond static filters like ratings and distance.
+Vibe Search is a production-style web application that explores how generative AI and client-side intelligence can be combined to enhance location-based discovery beyond static filters like ratings and distance.
 
-The project focuses on real-time intent understanding, predictive modeling, and ethical AI safeguards — all running entirely in the browser.
+Instead of answering “Where is it?”, Vibe Search answers:
+👉 “What will it feel like when I get there?”
+
+The project is designed as a hackathon-ready, extensible AI system, with a strong emphasis on UX, correctness, and real-world constraints.
 
 ## 🎯 Motivation
 
-Most location-based apps answer “where is it?”
-Very few answer “what will it feel like when I get there?”
+Most location-based apps optimize for proximity and popularity.
+Very few optimize for human intent and atmosphere.
 
 This project investigates:
 
-How ML can estimate contextual signals (busyness, vibe)
+How natural language intent can be converted into structured search
 
-How LLMs can translate human intent into structured search
+How AI can summarize unstructured signals into a human-readable vibe
 
-How AI guardrails can be enforced at the UX layer
+How ML can be safely integrated entirely on the client
 
 ## 🧠 What This Project Demonstrates
 
-This repository was built to showcase:
+This repository showcases:
 
-✅ Practical TensorFlow.js usage (training + inference)
-
-✅ Controlled AI workflows (Gemini + validation)
-
-✅ Safe AI integration (toxicity detection)
-
-✅ Clean React architecture with async ML pipelines
-
+✅ LLM-powered intent parsing (Gemini)
+✅ AI-generated vibe summaries from real-world data
+✅ Strict output validation to prevent hallucination
+✅ Clean React architecture with async AI pipelines
 ✅ Real-world API orchestration (Maps, Places, AI)
+✅ ML-ready architecture designed for TensorFlow.js extensions
 
 ## ✨ Key Features
-1. Intent-Aware Search (LLM-powered)
+### 🔍 Intent-Aware Search (LLM-powered)
 
-Accepts natural language queries
+Accepts natural language queries like
+“quiet cafe to work” or “cozy park for evening walks”
 
-Converts intent → structured search parameters
+Converts intent → structured Google Maps search parameters
 
-Strict JSON-based LLM outputs to avoid hallucination
+Enforces strict JSON-only LLM outputs for reliability
 
-2. Predictive Busyness Modeling (TensorFlow.js)
+### 🧠 AI Vibe Analysis
 
-Lightweight regression model trained on time-series patterns
+Uses generative AI to analyze place context and metadata
 
-Runs entirely in-browser (no backend inference)
+Produces a concise “AI Vibe” summary for each place
 
-Produces human-readable vibe labels
+Designed to mirror how humans reason about atmosphere, not just ratings
 
-3. ML Guardrails & Safety
+### 🗺️ Map-Centric UX
 
-Toxicity model screens user input
+Live Google Maps integration
 
-Prevents unsafe or abusive AI prompts
+Interactive markers and detail panels
 
-Demonstrates responsible AI design
-
-4. Map-Centric UX
-
-Google Maps integration with live markers
-
-Distance-based ranking
-
-Visual place selection + feedback loop
+Distance-aware ranking with visual feedback loops
 
 ## 🧩 Technical Architecture
 User Input
    ↓
-Toxicity Filter (TFJS)
-   ↓
-Gemini Intent Parser
+LLM Intent Parser (Gemini)
    ↓
 Google Places Search
    ↓
-TFJS Vibe Prediction
+AI Vibe Analysis
    ↓
 React UI + Maps
 
 
 No backend services
+
 No user data storage
-All intelligence runs locally
+
+All intelligence runs client-side
 
 ## 🛠️ Tech Stack
 Category	Technology
 Framework	React + Vite
 Maps	Google Maps (vis.gl)
 AI	Google Gemini
-ML	TensorFlow.js
-Safety	@tensorflow-models/toxicity
-Styling	Inline / CSS
+ML (Planned / Experimental)	TensorFlow.js
+Styling	CSS / Inline styles
+## 🧪 TensorFlow.js (Planned Extension)
+
+Earlier iterations of this project prototyped client-side ML workflows using TensorFlow.js, including:
+
+Predictive busyness estimation
+
+Vibe-based ranking models
+
+UX-level AI guardrails
+
+Due to browser stability constraints and hackathon timelines, these models were intentionally deferred in favor of a more reliable AI-first pipeline.
+
+However, the architecture is explicitly designed to support:
+
+In-browser TFJS inference
+
+Feature-based ranking models
+
+Time-series prediction (busyness, crowding)
+
+Safe ML lifecycle management
+
+👉 This makes TensorFlow.js a natural next step, not a refactor.
+
 ## ⚙️ Setup & Usage
 npm install
 npm run dev
@@ -101,21 +118,11 @@ Create a .env file:
 VITE_GOOGLE_MAPS_API_KEY=your_key
 VITE_GEMINI_API_KEY=your_key
 
-## 🧪 Design Considerations
-
-Client-side ML only to reduce infra complexity
-
-Explicit tensor disposal to avoid memory leaks
-
-Strict async sequencing for ML backend stability
-
-Separation of AI, ML, and UI concerns
-
-This project prioritizes engineering correctness over shortcuts.
-
 ## 📈 Potential Extensions
 
-Real-time crowd signals
+TensorFlow.js-based vibe ranking
+
+Predictive crowd/busyness modeling
 
 Model personalization
 
@@ -133,9 +140,9 @@ Human-centered AI systems
 
 Applied machine learning
 
-Building fast, reliable products under constraints
+Building fast, reliable products under real constraints
 
-It was intentionally designed as a hackathon-ready codebase — modular, extensible, and demonstrably functional.
+It was intentionally designed as a hackathon-selection–ready codebase — modular, extensible, and engineered with production trade-offs in mind.
 
 ## 📄 License
 
