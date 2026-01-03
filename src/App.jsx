@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { APIProvider, Map, AdvancedMarker, Pin } from '@vis.gl/react-google-maps';
 import { moodOptions } from './moodConfig';
 import { GoogleGenerativeAI } from "@google/generative-ai";
-// --- ML Imports ---
-import '@tensorflow/tfjs-backend-webgl'; 
-import * as tf from '@tensorflow/tfjs';
-import * as toxicity from '@tensorflow-models/toxicity';
+
 
 // Initialize Gemini
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
@@ -23,9 +20,10 @@ export default function App() {
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // --- Toxicity State ---
-  const [toxModel, setToxModel] = useState(null);
-  const [isToxic, setIsToxic] = useState(false);
+  // --- AI Vibe State ---
+const [aiVibe, setAiVibe] = useState(null);
+const [isVibeLoading, setIsVibeLoading] = useState(false);
+
 
   const phrases = [
     "Find a quiet cafe to work...",
@@ -35,17 +33,11 @@ export default function App() {
     "Best pizza for a date night..."
   ];
 
-  // 1. Load Toxicity Model on Start
-  useEffect(() => {
-    const loadModel = async () => {
-      const threshold = 0.9; 
-      const model = await toxicity.load(threshold);
-      setToxModel(model);
-    };
-    loadModel();
-  }, []);
+  const banned = /(fuck|shit|kill|hate)/i;
 
-  // 2. Typewriter Logic
+
+
+  // Typewriter Logic
   useEffect(() => {
     const currentPhrase = phrases[phraseIndex];
     const timeout = setTimeout(() => {
@@ -66,22 +58,9 @@ export default function App() {
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, phraseIndex]);
 
-  // 3. AI Search Logic with Toxicity Filter
+ // AI Search Handler
   const handleAISearch = async (userInput) => {
-    if (!userInput.trim() || !toxModel) return;
-    setIsAiLoading(true);
-    setIsToxic(false);
-
-    // Run Toxicity Check
-    const predictions = await toxModel.classify([userInput]);
-    const foundToxicity = predictions.some(p => p.results[0].match === true);
-
-    if (foundToxicity) {
-      setIsToxic(true);
-      setIsAiLoading(false);
-      return; 
-    }
-
+    
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const prompt = `User request: "${userInput}". 
     Provide a Google Maps search configuration.
@@ -103,8 +82,55 @@ export default function App() {
       setIsAiLoading(false);
     }
   };
+  // --- AI Vibe Analysis (Gemini NLP) ---
+  const generateAIVibe = async (place) => {
+    setIsVibeLoading(true);
+    setAiVibe(null);
 
-  // 4. Get User Location
+    try {
+      const textForAnalysis =
+        place.summary ||
+        `This place is called ${place.name}. It has a rating of ${place.rating || "unknown"}.`;
+
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+      const prompt = `
+Analyze the following place description and infer the vibe.
+
+Return ONLY valid JSON in this format:
+{
+  "cozy": number (0-100),
+  "loud": number (0-100),
+  "workFriendly": number (0-100),
+  "summary": string (1 short sentence)
+}
+
+Text:
+"""
+${textForAnalysis}
+"""
+`;
+
+      const result = await model.generateContent(prompt);
+      const responseText = result.response.text();
+      const clean = responseText.replace(/```json|```/g, "").trim();
+      const parsed = JSON.parse(clean);
+
+      setAiVibe(parsed);
+    } catch (err) {
+      console.error("AI Vibe Error:", err);
+      setAiVibe({
+        cozy: 50,
+        loud: 50,
+        workFriendly: 50,
+        summary: "AI could not determine the vibe."
+      });
+    } finally {
+      setIsVibeLoading(false);
+    }
+  };
+
+  // Get User Location
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -116,7 +142,7 @@ export default function App() {
     }
   }, []);
 
-  // 5. Fetch Logic
+  // Fetch Logic
   const fetchPlaces = async (moodKey, aiConfig = null) => {
     if (!window.google) return;
     let type, label;
@@ -191,19 +217,19 @@ export default function App() {
             </h2>
             <input 
               type="text" 
-              placeholder={!toxModel ? "Loading Safety AI..." : (isAiLoading ? "Gemini is thinking..." : placeholder)}
-              disabled={isAiLoading || !toxModel}
+              placeholder={isAiLoading ? "Gemini is thinking..." : placeholder}
+              disabled={isAiLoading}
               onKeyDown={(e) => e.key === 'Enter' && handleAISearch(e.target.value)}
               style={{ 
                 width: '100%', padding: '14px 20px', borderRadius: '15px', 
-                border: isToxic ? '3px solid #ff4d4d' : '3px solid transparent',
+                border: '2px solid transparent',
                 background: 'linear-gradient(white, white) padding-box, linear-gradient(to right, #ff00cc, #3333ff, #00d4ff) border-box',
                 outline: 'none', color: '#333', backgroundColor: isAiLoading ? '#f0f0f0' : '#fff',
                 boxSizing: 'border-box', fontSize: '16px', boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
                 transition: 'all 0.3s ease'
               }}
             />
-            {isToxic && <p style={{ color: '#ff4d4d', fontSize: '12px', marginTop: '8px', fontWeight: 'bold' }}>⚠️ Please avoid toxic language.</p>}
+            
           </div>
 
           <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
@@ -228,7 +254,10 @@ export default function App() {
           {places.map(place => (
             <div 
               key={place.place_id} 
-              onClick={() => setSelectedPlace(place)}
+              onClick={() => {
+  setSelectedPlace(place);
+  generateAIVibe(place);
+}}
               style={{ 
                 padding: '12px', marginBottom: '10px', borderRadius: '10px', display: 'flex', gap: '10px',
                 backgroundColor: selectedPlace?.place_id === place.place_id ? '#e7f1ff' : '#fff',
@@ -285,6 +314,29 @@ export default function App() {
               <div style={{ padding: '20px' }}>
                 <button onClick={() => setSelectedPlace(null)} style={{ float: 'right', border: 'none', background: '#f0f0f0', borderRadius: '50%', cursor: 'pointer', padding: '5px' }}>✕</button>
                 <h3 style={{ margin: '0 0 10px 0', color: '#1a1a1a' }}>{selectedPlace.name}</h3>
+                {isVibeLoading && (
+  <p style={{ fontSize: '13px', color: '#666' }}>
+    🤖 Analyzing vibe...
+  </p>
+)}
+
+{aiVibe && !isVibeLoading && (
+  <div style={{
+    marginTop: '12px',
+    padding: '10px',
+    borderRadius: '10px',
+    background: '#f4f6ff',
+    fontSize: '13px'
+  }}>
+    <strong>AI Vibe</strong>
+    <p style={{ margin: '6px 0' }}>{aiVibe.summary}</p>
+    <p>☕ Cozy: {aiVibe.cozy}%</p>
+    <p>🔊 Loud: {aiVibe.loud}%</p>
+    <p>💻 Work-friendly: {aiVibe.workFriendly}%</p>
+  </div>
+)}
+
+
                 <p style={{ fontSize: '14px', color: '#444' }}>{selectedPlace.summary || "A recommended spot based on your vibe."}</p>
                 <a 
                   href={`https://www.google.com/maps/search/?api=1&query=${selectedPlace.location.lat()},${selectedPlace.location.lng()}&query_place_id=${selectedPlace.place_id}`}

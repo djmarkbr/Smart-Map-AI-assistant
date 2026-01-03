@@ -11,9 +11,6 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "@tensorflow-models/toxicity": "^1.2.2",
-    "@tensorflow/tfjs": "^3.21.0",
-    "@tensorflow/tfjs-backend-webgl": "^4.22.0",
     "@vis.gl/react-google-maps": "^1.7.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
